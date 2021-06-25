@@ -6,9 +6,10 @@ import config
 import utils
 
 app = Flask(__name__)
-w3 = Web3(Web3.HTTPProvider(f'https://mainnet.infura.io/v3/{config.INFURA_PROJECT_ID}'))
+w3 = Web3(Web3.HTTPProvider(config.RPC_URL))
 token_contract = w3.eth.contract(config.TOKEN_ADDRESS, abi=config.TOKEN_ABI)
-crowdsale_contract = w3.eth.contract(config.CROWDSALE_ADDRESS, abi=config.CROWDSALE_ABI)
+# crowdsale_contract = w3.eth.contract(config.CROWDSALE_ADDRESS, abi=config.CROWDSALE_ABI)
+crowdsale_contract = None
 
 
 @utils.TimedLruCache(expiration=timedelta(minutes=config.UPDATE_INTERVAL_MINUTES))
