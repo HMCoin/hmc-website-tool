@@ -8,8 +8,7 @@ import utils
 app = Flask(__name__)
 w3 = Web3(Web3.HTTPProvider(config.RPC_URL))
 token_contract = w3.eth.contract(config.TOKEN_ADDRESS, abi=config.TOKEN_ABI)
-# crowdsale_contract = w3.eth.contract(config.CROWDSALE_ADDRESS, abi=config.CROWDSALE_ABI)
-crowdsale_contract = None
+crowdsale_contract = w3.eth.contract(config.CROWDSALE_ADDRESS, abi=config.CROWDSALE_ABI)
 
 
 @utils.TimedLruCache(expiration=timedelta(minutes=config.UPDATE_INTERVAL_MINUTES))
@@ -24,10 +23,10 @@ def fetchCrowdsaleRaisedWei():
 
 @utils.TimedLruCache(expiration=timedelta(minutes=config.UPDATE_INTERVAL_MINUTES))
 def fetchCrowdsaleRaisedTokens():
-    return str(int(fetchCrowdsaleRaisedWei) * int(crowdsale_contract.functions.rate().call()))
+    return str(int(fetchCrowdsaleRaisedWei()) * int(crowdsale_contract.functions.rate().call()))
 
 
-@utils.TimedLruCache
+@utils.TimedLruCache()
 def fetchCrowdsaleCap():
     return str(crowdsale_contract.functions.cap().call())
 
