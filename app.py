@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from flask import Flask
 from web3 import Web3
-import config
+import config_testnet as config
 import utils
 
 app = Flask(__name__)
