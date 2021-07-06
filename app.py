@@ -2,10 +2,13 @@ from datetime import timedelta
 
 from flask import Flask
 from web3 import Web3
+from flask_cors import CORS
+
 import config as config
 import utils
 
 app = Flask(__name__)
+CORS(app)
 w3 = Web3(Web3.HTTPProvider(config.RPC_URL))
 token_contract = w3.eth.contract(config.TOKEN_ADDRESS, abi=config.TOKEN_ABI)
 crowdsale_contract = w3.eth.contract(config.CROWDSALE_ADDRESS, abi=config.CROWDSALE_ABI)
@@ -32,8 +35,6 @@ def fetchCrowdsaleCap():
 
 
 # endpoints
-
-
 @app.route('/totalSupply')
 def getTotalSupply():
     return fetchTotalSupply()
